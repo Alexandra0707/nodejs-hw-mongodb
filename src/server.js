@@ -28,7 +28,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
-import { getAllStudents, getStudentById } from './services/studentsService.js';
+import { getAllContacts, getStudentById } from './services/studentsService.js';
 
 const PORT = getEnvVar('PORT');
 
@@ -45,25 +45,25 @@ export const setupServer = () => {
     }),
   );
 
-  app.get('/students', async (req, res) => {
+  app.get('/contacts', async (req, res) => {
     try {
-      const students = await getAllStudents();
-      res.status(200).json({ data: students });
+      const contacts = await getAllContacts();
+      res.status(200).json({ data: contacts });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error: error.message });
     }
   });
 
-  app.get('/students/:studentId', async (req, res) => {
+  app.get('/contacts/:contactId', async (req, res) => {
     try {
-      const { studentId } = req.params;
-      const student = await getStudentById(studentId);
+      const { contactId } = req.params;
+      const contact = await getStudentById(contactId);
 
-      if (!student) {
-        return res.status(404).json({ message: 'Student not found' });
+      if (!contact) {
+        return res.status(404).json({ message: 'Contact not found' });
       }
 
-      res.status(200).json({ data: student });
+      res.status(200).json({ data: contact });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error: error.message });
     }
