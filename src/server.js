@@ -28,7 +28,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
-import { getAllContacts, getStudentById } from './services/studentsService.js';
+import { getAllContacts, getContactById } from './services/contacts.js';
 
 const PORT = getEnvVar('PORT');
 
@@ -57,7 +57,7 @@ export const setupServer = () => {
   app.get('/contacts/:contactId', async (req, res) => {
     try {
       const { contactId } = req.params;
-      const contact = await getStudentById(contactId);
+      const contact = await getContactById(contactId);
 
       if (!contact) {
         return res.status(404).json({ message: 'Contact not found' });
