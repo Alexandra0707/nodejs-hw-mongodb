@@ -32,3 +32,7 @@ export const updateContactById = async (contactId, updates) => {
     runValidators: true,
   });
 };
+
+export const deleteContactById = async (contactId) => {
+  return await contactsCollection.findByIdAndDelete(contactId);
+};
