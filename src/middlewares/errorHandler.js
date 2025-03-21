@@ -1,4 +1,4 @@
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, _next) => {
   res.status(500).json({
     status: 500,
     message: 'Something went wrong',
