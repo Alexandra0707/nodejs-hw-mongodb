@@ -1,4 +1,4 @@
-import { contactsCollection } from '../db/models/Contact.js';
+import { contactsCollection } from '../db/models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/index.js';
 
@@ -40,39 +40,29 @@ export const getAllContacts = async ({
   };
 };
 
-// export const getAllContacts = async () => {
-//   return await contactsCollection.find();
-// };
-
 export const getContactById = async (contactId) => {
   return await contactsCollection.findById(contactId);
 };
 
-export const addContact = async ({
-  name,
-  phoneNumber,
-  email,
-  isFavourite,
-  contactType,
-}) => {
-  const newContact = new contactsCollection({
-    name,
-    phoneNumber,
-    email,
-    isFavourite,
-    contactType,
-  });
-
-  return await newContact.save();
+export const createContact = async (payload) => {
+  return await contactsCollection.create(payload);
 };
 
-export const updateContactById = async (contactId, updates) => {
-  return await contactsCollection.findByIdAndUpdate(contactId, updates, {
-    new: true,
-    runValidators: true,
+export const deleteContact = async (contactId) => {
+  return await contactsCollection.findOneAndDelete({
+    _id: contactId,
   });
 };
 
-export const deleteContactById = async (contactId) => {
-  return await contactsCollection.findByIdAndDelete(contactId);
+export const updateContact = async (contactId, payload, options = {}) => {
+  const result = await contactsCollection.findOneAndUpdate(
+    { _id: contactId },
+    payload,
+    {
+      new: true,
+      ...options,
+    },
+  );
+
+  return result;
 };
