@@ -8,10 +8,8 @@ import {
   deleteContactController,
 } from '../controllers/contacts.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import {
-  createContactValidationSchema,
-  updateContactValidationSchema,
-} from '../validation/contacts.js';
+import { createContactValidationSchema } from '../validation/contacts.js';
+import updateContactValidationSchema from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
