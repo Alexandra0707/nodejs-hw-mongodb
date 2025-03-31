@@ -5,27 +5,28 @@ const contactSchema = new Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     phoneNumber: {
       type: String,
       required: true,
+      trim: true,
     },
     email: {
       type: String,
       required: false,
+      trim: true,
     },
     isFavourite: {
       type: Boolean,
-      required: false,
       default: false,
     },
     contactType: {
       type: String,
-      required: true,
       enum: ['work', 'home', 'personal'],
       default: 'personal',
     },
-    userId: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -37,4 +38,4 @@ const contactSchema = new Schema(
   },
 );
 
-export const contactsCollection = model('contacts', contactSchema);
+export const Contact = model('Contact', contactSchema);

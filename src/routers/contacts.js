@@ -8,13 +8,17 @@ import {
   deleteContactController,
 } from '../controllers/contacts.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { createContactValidationSchema } from '../validation/contacts.js';
+import {
+  createContactValidationSchema,
+  updateContactValidationSchema,
+} from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
 router.use(authenticate);
+
 router.get('/', ctrlWrapper(getAllContactsController));
 router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 router.post(
@@ -25,7 +29,7 @@ router.post(
 router.patch(
   '/:contactId',
   isValidId,
-  validateBody(createContactValidationSchema),
+  validateBody(updateContactValidationSchema), // Виправлена схема валідації
   ctrlWrapper(patchContactController),
 );
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
