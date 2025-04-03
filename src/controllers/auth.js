@@ -6,11 +6,6 @@ import {
 } from '../services/auth.js';
 import { REFRESH_TOKEN_LIVE } from '../constants/index.js';
 
-/**
- * Setup cookie session
- * @param {*} res
- * @param {*} session
- */
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
@@ -22,11 +17,6 @@ const setupSession = (res, session) => {
   });
 };
 
-/**
- * Registration new user
- * @param {*} req
- * @param {*} res
- */
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
@@ -37,11 +27,6 @@ export const registerUserController = async (req, res) => {
   });
 };
 
-/**
- * Authentication user
- * @param {*} req
- * @param {*} res
- */
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
 
@@ -56,11 +41,6 @@ export const loginUserController = async (req, res) => {
   });
 };
 
-/**
- * Refresh user session token
- * @param {*} req
- * @param {*} res
- */
 export const refreshUserSessionController = async (req, res) => {
   const session = await refreshUsersSession({
     sessionId: req.cookies.sessionId,
@@ -78,17 +58,11 @@ export const refreshUserSessionController = async (req, res) => {
   });
 };
 
-/**
- * Logout user
- * @param {*} req
- * @param {*} res
- */
 export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
     await logoutUser(req.cookies.sessionId);
   }
 
-  // Clear cookies
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
 
