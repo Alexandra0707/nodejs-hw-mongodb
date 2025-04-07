@@ -30,11 +30,11 @@ export const getAllContactsController = async (req, res, next) => {
   });
 };
 
-export const getContactByIdController = async (req, res, next) => {
+export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(contactId, req.user._id);
 
-  if (!contact || contact.userId.toString() !== req.user._id.toString()) {
+  if (!contact) {
     throw createHttpError(404, 'Contact not found!');
   }
 
@@ -45,7 +45,7 @@ export const getContactByIdController = async (req, res, next) => {
   });
 };
 
-export const createContactController = async (req, res, next) => {
+export const createContactController = async (req, res) => {
   const contact = await createContact({ ...req.body, userId: req.user._id });
 
   res.status(201).json({
@@ -55,15 +55,10 @@ export const createContactController = async (req, res, next) => {
   });
 };
 
-export const patchContactController = async (req, res, next) => {
+export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
 
-  if (!contact || contact.userId.toString() !== req.user._id.toString()) {
-    throw createHttpError(404, 'Contact not found');
-  }
-
-  const result = await updateContact(contactId, req.body);
+  const result = await updateContact(contactId, req.body, req.user._id);
   res.status(200).json({
     status: 200,
     message: 'Successfully patched a contact!',
@@ -71,14 +66,9 @@ export const patchContactController = async (req, res, next) => {
   });
 };
 
-export const deleteContactController = async (req, res, next) => {
+export const deleteContactController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
 
-  if (!contact || contact.userId.toString() !== req.user._id.toString()) {
-    throw createHttpError(404, 'Contact not found!');
-  }
-
-  await deleteContact(contactId);
+  await deleteContact(contactId, req.user._id);
   res.status(204).send();
 };
